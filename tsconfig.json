@@ -1,0 +1,13 @@
+{
+    "compilerOptions": {
+        "outDir": "./www/js/game/",
+        "inlineSources": false,
+        "sourceMap": true,
+         "module": "commonjs",
+         "experimentalDecorators": true,
+         "allowJs": true
+    },
+    "include": [
+        "./www/src"
+    ]
+}
