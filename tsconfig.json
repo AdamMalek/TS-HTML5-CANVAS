@@ -8,6 +8,6 @@
          "allowJs": true
     },
     "include": [
-        "./www/src"
+        "./src"
     ]
 }

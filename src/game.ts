@@ -1,6 +1,6 @@
 import { Renderer } from './engine/renderer';
 import { Entity } from "./entity";
-import { Square } from "./Entities/square";
+import { Board } from "./Entities/board";
 import { settings } from './settings';
 
 class Game {
@@ -19,19 +19,20 @@ class Game {
         this.width = this.ctx.canvas.width;
         this.height = this.ctx.canvas.height;
 
-        let colors = [
-            'white', 'yellow', 'red', 'pink', 'green', 'blue'
-        ];
-        let minLen = 20;
-        let maxLen = 100;
-        for (let i = 0; i < 10; i++) {
-            let len = (Math.random() * (maxLen - minLen)) + minLen;
-            let x = Math.random() * (this.width - len);
-            let y = Math.random() * (this.height - len);
-            let rot = ((Math.random() - 0.5) * 2) * Math.PI * 2 ;
-            let color = colors[Math.floor(Math.random() * colors.length)];
-            this.entities.push(new Square(x, y, len, color, rot));
-        }
+        // let colors = [
+        //     'white', 'yellow', 'red', 'pink', 'green', 'blue'
+        // ];
+        // let minLen = 20;
+        // let maxLen = 100;
+        // for (let i = 0; i < 10; i++) {
+        //     let len = (Math.random() * (maxLen - minLen)) + minLen;
+        //     let x = Math.random() * (this.width - len);
+        //     let y = Math.random() * (this.height - len);
+        //     let rot = ((Math.random() - 0.5) * 2) * Math.PI * 2;
+        //     let color = colors[Math.floor(Math.random() * colors.length)];
+        //     this.entities.push(new Square(x, y, len, color, rot));
+        // }
+        this.entities.push(new Board());
 
         this.GameLoop();
     }
@@ -73,12 +74,15 @@ class Game {
         for (let ent of this.entities) {
             ent.Draw();
         }
-
-        this.ctx.fillStyle = 'gray';
-        this.ctx.fillRect(5,15,100,35);
-        this.ctx.font = '20pt Calibri';
-        this.ctx.fillStyle = 'white';
-        this.ctx.fillText("FPS: " + Math.ceil(this.fps), 10, 40);
+        if (settings.video.showFPS) {
+            this.ctx.save();
+            this.ctx.fillStyle = 'gray';
+            this.ctx.fillRect(5, 15, 100, 35);
+            this.ctx.font = '20pt Calibri';
+            this.ctx.fillStyle = 'white';
+            this.ctx.fillText("FPS: " + Math.ceil(this.fps), 10, 40);
+            this.ctx.restore();
+        }
     }
 }
 
