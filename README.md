@@ -5,7 +5,6 @@ This is sample project, which I will use to learn more about TypeScript and how 
 # Required
 1. node.js (https://nodejs.org/en/)
 2. npm (installed with node.js)
-3. TypeScript (to install use: "npm install typescript -g")
 
 # Setup
 1. Clone
