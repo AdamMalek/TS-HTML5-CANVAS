@@ -10,7 +10,7 @@
   },
   "devDependencies": {},
   "scripts": {
-    "start": "tsc --module amd | supervisor server.js"
+    "start": "tsc | supervisor server.js"
   },
   "author": "",
   "license": "ISC"

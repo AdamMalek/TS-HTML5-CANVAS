@@ -2,6 +2,10 @@ import { Renderer } from './engine/renderer';
 import { Entity } from "./entity";
 import { Board } from "./Entities/board";
 import { settings } from './settings';
+import { Input } from "./Engine/input";
+import { Paddle } from "./Entities/paddle";
+import { AIPaddle } from "./Entities/aipaddle";
+import { Ball } from "./Entities/ball";
 
 class Game {
     width: number;
@@ -12,6 +16,7 @@ class Game {
 
     Start() {
         this.ctx = Renderer.createContext('gameCanvas');
+        Input.createHandler(this.ctx);
         if (!this.ctx) {
             console.log("Error while creating context");
             return;
@@ -19,20 +24,19 @@ class Game {
         this.width = this.ctx.canvas.width;
         this.height = this.ctx.canvas.height;
 
-        // let colors = [
-        //     'white', 'yellow', 'red', 'pink', 'green', 'blue'
-        // ];
-        // let minLen = 20;
-        // let maxLen = 100;
-        // for (let i = 0; i < 10; i++) {
-        //     let len = (Math.random() * (maxLen - minLen)) + minLen;
-        //     let x = Math.random() * (this.width - len);
-        //     let y = Math.random() * (this.height - len);
-        //     let rot = ((Math.random() - 0.5) * 2) * Math.PI * 2;
-        //     let color = colors[Math.floor(Math.random() * colors.length)];
-        //     this.entities.push(new Square(x, y, len, color, rot));
-        // }
         this.entities.push(new Board());
+
+        let paddleSpeed = 250;
+        this.entities.push(new Paddle(10, 10, 20, 100, paddleSpeed));
+        this.entities.push(new AIPaddle(this.width - 30, 10, 20, 100, paddleSpeed));
+
+        let ballR = 4;
+        let ballSpeed = {
+            x: Math.random() * 600,
+            y: Math.random() * 600
+        };
+        // this.entities.push(new Ball((this.width - ballR) / 2, (this.height - ballR) / 2, ballR, ballSpeed));
+        this.entities.push(new Ball(100, 100, ballR, ballSpeed));
 
         this.GameLoop();
     }

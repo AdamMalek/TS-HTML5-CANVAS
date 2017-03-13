@@ -3,7 +3,7 @@ export const settings = {
         "screenWidth": 800,
         "screenHeight": 600,
         "maxFPS": 60,
-        "showFPS" : true,
+        "showFPS" : false,
         "FPSUpdateTime": 400
     }
 }

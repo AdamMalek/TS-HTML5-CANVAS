@@ -3,7 +3,7 @@
         "outDir": "./www/js/game/",
         "inlineSources": false,
         "sourceMap": true,
-         "module": "commonjs",
+         "module": "amd",
          "experimentalDecorators": true,
          "allowJs": true
     },
