@@ -1,12 +1,13 @@
 import { Entity } from "../entity";
-import { Vector2 } from "../Engine/structures";
+import { Vector2, Rect, Line } from "../Engine/structures";
+import { Paddle } from "./paddle";
 
 export class Ball extends Entity {
-    constructor(private x: number, private y: number, private r: number, private baseSpeed: Vector2) {
+    constructor(private x: number, public y: number, private r: number, private baseSpeed: Vector2) {
         super();
         this.speed = baseSpeed;
     }
-    private speed:Vector2;
+    private speed: Vector2;
     HandleInput() {
     }
     Update(dt: number) {
@@ -17,7 +18,14 @@ export class Ball extends Entity {
     Draw() {
         this.ctx.fillStyle = 'white';
         this.ctx.beginPath();
-        this.ctx.ellipse(this.x,this.y,this.r,this.r,0,0,Math.PI*2);
+        this.ctx.ellipse(this.x, this.y, this.r, this.r, 0, 0, Math.PI * 2);
         this.ctx.fill();
+    }
+    checkForHit(face: Line) {
+        if ((Math.abs(this.x - face.A.x) > this.r) ||
+            (this.y < (face.A.y - this.r)) ||
+            (this.y > (face.B.y + this.r))) {
+                this.speed.x *=-1;
+        }
     }
 }

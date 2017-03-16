@@ -8,6 +8,17 @@ export interface Vector2{
     y:number
 };
 
+export interface Rect{
+    pos:Vector2,
+    width:number,
+    height:number
+}
+
+export interface Line{
+    A: Vector2,
+    B: Vector2
+}
+
 export enum MouseButton{
     LeftMouseButton = 0,
     MiddleMouseButton,

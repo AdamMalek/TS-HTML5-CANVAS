@@ -12,8 +12,11 @@ class Game {
     height: number;
     ctx: CanvasRenderingContext2D;
 
-    entities: Entity[] = [];
-
+    // entities: Entity[] = [];
+    playerPaddle: Paddle;
+    aiPaddle: AIPaddle;
+    board: Board;
+    ball: Ball;
     Start() {
         this.ctx = Renderer.createContext('gameCanvas');
         Input.createHandler(this.ctx);
@@ -24,11 +27,11 @@ class Game {
         this.width = this.ctx.canvas.width;
         this.height = this.ctx.canvas.height;
 
-        this.entities.push(new Board());
+        this.board = new Board();
 
         let paddleSpeed = 250;
-        this.entities.push(new Paddle(10, 10, 20, 100, paddleSpeed));
-        this.entities.push(new AIPaddle(this.width - 30, 10, 20, 100, paddleSpeed));
+        this.playerPaddle = new Paddle(10, 10, 20, 100, paddleSpeed);
+        this.aiPaddle = new AIPaddle(this.width - 30, 10, 20, 100, 0);
 
         let ballR = 4;
         let ballSpeed = {
@@ -36,7 +39,7 @@ class Game {
             y: Math.random() * 600
         };
         // this.entities.push(new Ball((this.width - ballR) / 2, (this.height - ballR) / 2, ballR, ballSpeed));
-        this.entities.push(new Ball(100, 100, ballR, ballSpeed));
+        this.ball = new Ball(100, 100, ballR, ballSpeed);
 
         this.GameLoop();
     }
@@ -65,19 +68,27 @@ class Game {
             this.fpsTime = 0;
         }
 
-        for (let ent of this.entities) {
-            ent.HandleInput();
-            ent.Update(dt / 1000);
-        }
+        dt /= 1000;
+        this.playerPaddle.HandleInput();
+        this.playerPaddle.Update(dt);
+        //this.aiPaddle.HandleInput();
+        this.aiPaddle.setY(this.ball.y);
+        this.aiPaddle.Update(dt);
+        this.ball.Update(dt);
+        this.ball.checkForHit(this.playerPaddle.GetFace());
+        this.ball.checkForHit(this.aiPaddle.GetFace());
     }
 
     Draw() {
         this.ctx.fillStyle = 'black';
         this.ctx.fillRect(0, 0, this.width, this.height);
 
-        for (let ent of this.entities) {
-            ent.Draw();
-        }
+        this.board.Draw();
+        this.playerPaddle.Draw();
+        this.aiPaddle.Draw();
+        this.ball.Draw();
+
+
         if (settings.video.showFPS) {
             this.ctx.save();
             this.ctx.fillStyle = 'gray';

@@ -1,5 +1,6 @@
 import { Entity } from '../entity';
 import { Input } from '../Engine/input';
+import { Rect, Line } from "../Engine/structures";
 
 export class Paddle extends Entity {
 
@@ -11,6 +12,30 @@ export class Paddle extends Entity {
     protected down = false;
     protected up = false;
     protected speed;
+    GetPosition(): Rect {
+        return {
+            pos: {
+                x: this.x,
+                y: this.y
+            },
+            width: this.width,
+            height: this.height
+        }
+    }
+
+    GetFace():Line{
+        return {
+            A: {
+                x: this.x + this.width,
+                y: this.y 
+            },
+            B: {
+                x: this.x + this.width,
+                y: this.y + this.height 
+            }
+        }
+    }
+
     HandleInput() {
         this.up = Input.isKeyPressed(87);
         this.down = Input.isKeyPressed(83);
@@ -38,5 +63,15 @@ export class Paddle extends Entity {
     Draw() {
         this.ctx.fillStyle = 'white';
         this.ctx.fillRect(this.x, this.y, this.width, this.height);
+        let face = this.GetFace();
+
+        this.ctx.fillStyle = 'red';
+        this.ctx.fillRect(face.A.x-4, face.A.y, 4,face.B.y-face.A.y);
+
+        // this.ctx.beginPath();
+        // this.ctx.strokeStyle = 'red';
+        // this.ctx.moveTo(face.A.x,face.A.y);
+        // this.ctx.lineTo(face.B.x,face.B.y);
+        // this.ctx.stroke();
     }
 }
